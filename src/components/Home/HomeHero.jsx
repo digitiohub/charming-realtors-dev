@@ -52,10 +52,10 @@ const HomeHero = ({ theme = "blue", particleColors }) => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-[calc(100%-70px)] px-4 text-center">
-        {/* Logo with white container */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-[calc(100%-130px)] px-4 text-center">
+        {/* Logo with white container - Increased size */}
         <motion.div
-          className="bg-white rounded-xl shadow-lg p-4 mb-10 w-auto max-w-xs mx-auto"
+          className="bg-white rounded-xl shadow-lg px-2 sm:px-3 py-2  mb-2  w-auto mx-auto"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
@@ -67,7 +67,7 @@ const HomeHero = ({ theme = "blue", particleColors }) => {
           <img
             src="/logos/logo_full.png"
             alt="Company Logo"
-            className="h-16 w-auto object-contain"
+            className="h-32 sm:-42 lg:h-56 w-auto object-contain"
           />
         </motion.div>
 
@@ -81,12 +81,13 @@ const HomeHero = ({ theme = "blue", particleColors }) => {
           }}
         >
           <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white leading-tight">
-            Your Real Estate Journey, Guided by
+            Your Real Estate Journey, Guided by{" "}
             <br className="hidden md:block" />
             30+ Years of Excellence
           </h1>
         </motion.div>
 
+        {/* Description text - Hidden on mobile */}
         <motion.div
           initial={{ opacity: 0, translateY: 30 }}
           animate={{ opacity: 1, translateY: 0 }}
@@ -95,6 +96,7 @@ const HomeHero = ({ theme = "blue", particleColors }) => {
             delay: 0.4,
             ...springConfig,
           }}
+          className="hidden sm:block"
         >
           <p className="text-lg md:text-xl mb-10 max-w-3xl text-gray-100">
             Our team of former Finance Executives and Chartered Accountants
@@ -111,7 +113,7 @@ const HomeHero = ({ theme = "blue", particleColors }) => {
             delay: 0.6,
             ...springConfig,
           }}
-          className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6"
+          className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 mt-8 sm:mt-0"
         >
           <Button
             variant={styles.buttonPrimary}
