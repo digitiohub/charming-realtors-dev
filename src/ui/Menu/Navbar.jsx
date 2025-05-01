@@ -1,25 +1,49 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import MobileMenu from "./MobileMenu";
 
-const Navbar = () => {
+const Navbar = ({ transparent = false, theme = "blue" }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Check if we're on the terracotta theme page
+  const isTerracotta = location.pathname === "/home2" || theme === "terracotta";
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <header
+        className={`${transparent ? "" : "sticky top-0"} z-40 w-full ${
+          transparent ? "bg-transparent" : "bg-white shadow-sm"
+        }`}
+      >
+        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
           {/* Logo */}
-          <NavLink to="/" className="font-bold text-xl text-blue-600">
+          <NavLink
+            to="/"
+            className={`font-bold text-xl ${
+              transparent
+                ? "text-white"
+                : isTerracotta
+                ? "text-[#b54426]"
+                : "text-blue-600"
+            }`}
+          >
             <motion.div
               whileHover={{
                 translateY: -2,
                 transition: { type: "spring", stiffness: 400, damping: 10 },
               }}
+              className="flex items-center gap-2"
             >
-              YourLogo
+              <img
+                src="/logos/logo_icon.png"
+                alt="Logo"
+                className={`h-[2em] w-auto ${
+                  transparent ? "filter brightness-0 invert" : ""
+                }`}
+              />
             </motion.div>
           </NavLink>
 
@@ -29,7 +53,15 @@ const Navbar = () => {
               to="/"
               className={({ isActive }) =>
                 isActive
-                  ? "font-semibold text-blue-600"
+                  ? `font-semibold ${
+                      transparent
+                        ? "text-white"
+                        : isTerracotta
+                        ? "text-[#b54426]"
+                        : "text-blue-600"
+                    }`
+                  : transparent
+                  ? "text-gray-200 hover:text-white"
                   : "text-gray-800 hover:text-blue-500"
               }
             >
@@ -48,7 +80,11 @@ const Navbar = () => {
               to="/home2"
               className={({ isActive }) =>
                 isActive
-                  ? "font-semibold text-[#b54426]"
+                  ? `font-semibold ${
+                      transparent ? "text-white" : "text-[#b54426]"
+                    }`
+                  : transparent
+                  ? "text-gray-200 hover:text-white"
                   : "text-gray-800 hover:text-[#d25a3a]"
               }
             >
@@ -63,13 +99,21 @@ const Navbar = () => {
               </motion.div>
             </NavLink>
 
-            {["/about", "/projects", "/contact"].map((path) => (
+            {["about", "projects", "contact"].map((path) => (
               <NavLink
                 key={path}
-                to={path.substring(1)}
+                to={`/${path}`} // Use absolute paths with leading slash
                 className={({ isActive }) =>
                   isActive
-                    ? "font-semibold text-blue-600"
+                    ? `font-semibold ${
+                        transparent
+                          ? "text-white"
+                          : isTerracotta
+                          ? "text-[#b54426]"
+                          : "text-blue-600"
+                      }`
+                    : transparent
+                    ? "text-gray-200 hover:text-white"
                     : "text-gray-800 hover:text-blue-500"
                 }
               >
@@ -80,8 +124,7 @@ const Navbar = () => {
                     transition: { type: "spring", stiffness: 400, damping: 10 },
                   }}
                 >
-                  {path.substring(1).charAt(0).toUpperCase() +
-                    path.substring(2)}
+                  {path.charAt(0).toUpperCase() + path.substring(1)}
                 </motion.div>
               </NavLink>
             ))}
@@ -94,13 +137,26 @@ const Navbar = () => {
             className="md:hidden"
             aria-label="Open menu"
           >
-            <Menu size={24} />
+            <Menu
+              size={24}
+              className={
+                transparent
+                  ? "text-white"
+                  : isTerracotta
+                  ? "text-[#b54426]"
+                  : "text-blue-600"
+              }
+            />
           </motion.button>
         </div>
       </header>
 
       {/* Mobile Menu */}
-      <MobileMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+      <MobileMenu
+        isOpen={isMenuOpen}
+        setIsOpen={setIsMenuOpen}
+        theme={isTerracotta ? "terracotta" : "blue"}
+      />
 
       {/* Overlay when mobile menu is open */}
       <AnimatePresence>

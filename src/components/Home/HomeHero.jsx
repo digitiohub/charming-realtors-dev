@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import Particles from "../../ui/Particles/Particles";
-import { MessageCircle, Menu, X } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Button from "../../ui/Components/Button";
-import { NavLink } from "react-router-dom";
+import Navbar from "../../ui/Menu/Navbar";
 
 const HomeHero = ({ theme = "blue", particleColors }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   // Theme-specific styles
   const themeStyles = {
     blue: {
@@ -48,203 +46,31 @@ const HomeHero = ({ theme = "blue", particleColors }) => {
         />
       </div>
 
-      {/* Navbar - Placed directly in the hero */}
+      {/* Navbar - Using the shared component with transparent mode */}
       <div className="relative z-20">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          {/* Logo */}
-          <NavLink to="/" className="font-bold text-xl text-white">
-            <motion.div
-              whileHover={{
-                translateY: -2,
-                transition: { type: "spring", stiffness: 400, damping: 10 },
-              }}
-            >
-              YourLogo
-            </motion.div>
-          </NavLink>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive
-                  ? "font-semibold text-white"
-                  : "text-gray-200 hover:text-white"
-              }
-            >
-              <motion.div
-                initial={{ translateY: 0 }}
-                whileHover={{
-                  translateY: -2,
-                  transition: { type: "spring", stiffness: 400, damping: 10 },
-                }}
-              >
-                Home 1
-              </motion.div>
-            </NavLink>
-
-            <NavLink
-              to="/home2"
-              className={({ isActive }) =>
-                isActive
-                  ? "font-semibold text-white"
-                  : "text-gray-200 hover:text-white"
-              }
-            >
-              <motion.div
-                initial={{ translateY: 0 }}
-                whileHover={{
-                  translateY: -2,
-                  transition: { type: "spring", stiffness: 400, damping: 10 },
-                }}
-              >
-                Home 2
-              </motion.div>
-            </NavLink>
-
-            {["/about", "/projects", "/contact"].map((path, index) => (
-              <NavLink
-                key={path}
-                to={path.substring(1)}
-                className={({ isActive }) =>
-                  isActive
-                    ? "font-semibold text-white"
-                    : "text-gray-200 hover:text-white"
-                }
-              >
-                <motion.div
-                  initial={{ translateY: 0 }}
-                  whileHover={{
-                    translateY: -2,
-                    transition: { type: "spring", stiffness: 400, damping: 10 },
-                  }}
-                >
-                  {path.substring(1).charAt(0).toUpperCase() +
-                    path.substring(2)}
-                </motion.div>
-              </NavLink>
-            ))}
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setIsMenuOpen(true)}
-            className="md:hidden text-white"
-            aria-label="Open menu"
-          >
-            <Menu size={24} />
-          </motion.button>
-        </div>
+        <Navbar transparent={true} theme={theme} />
       </div>
-
-      {/* Mobile Menu */}
-      <motion.div
-        initial={{ translateX: "100%" }}
-        animate={{
-          translateX: isMenuOpen ? 0 : "100%",
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 30,
-        }}
-        className="fixed top-0 right-0 h-full w-[70%] bg-white shadow-lg z-50 flex flex-col"
-      >
-        <div className="flex justify-end p-4">
-          <button onClick={() => setIsMenuOpen(false)} aria-label="Close menu">
-            <X size={24} />
-          </button>
-        </div>
-
-        <nav className="flex flex-col gap-6 p-6">
-          <NavLink
-            to="/"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) =>
-              isActive
-                ? `font-semibold ${
-                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
-                  }`
-                : "text-gray-800 hover:text-blue-500"
-            }
-          >
-            Home 1
-          </NavLink>
-
-          <NavLink
-            to="/home2"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) =>
-              isActive
-                ? `font-semibold ${
-                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
-                  }`
-                : "text-gray-800 hover:text-blue-500"
-            }
-          >
-            Home 2
-          </NavLink>
-
-          <NavLink
-            to="/about"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) =>
-              isActive
-                ? `font-semibold ${
-                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
-                  }`
-                : "text-gray-800 hover:text-blue-500"
-            }
-          >
-            About
-          </NavLink>
-
-          <NavLink
-            to="/projects"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) =>
-              isActive
-                ? `font-semibold ${
-                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
-                  }`
-                : "text-gray-800 hover:text-blue-500"
-            }
-          >
-            Projects
-          </NavLink>
-
-          <NavLink
-            to="/contact"
-            onClick={() => setIsMenuOpen(false)}
-            className={({ isActive }) =>
-              isActive
-                ? `font-semibold ${
-                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
-                  }`
-                : "text-gray-800 hover:text-blue-500"
-            }
-          >
-            Contact
-          </NavLink>
-        </nav>
-      </motion.div>
-
-      {/* Overlay when mobile menu is open */}
-      {isMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={() => setIsMenuOpen(false)}
-        />
-      )}
 
       {/* Hero Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-[calc(100%-70px)] px-4 text-center">
+        {/* Logo with white container */}
+        <motion.div
+          className="bg-white rounded-xl shadow-lg p-4 mb-10 w-auto max-w-xs mx-auto"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.6,
+            delay: 0.1,
+            ...springConfig,
+          }}
+        >
+          <img
+            src="/logos/logo_full.png"
+            alt="Company Logo"
+            className="h-16 w-auto object-contain"
+          />
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, translateY: 30 }}
           animate={{ opacity: 1, translateY: 0 }}

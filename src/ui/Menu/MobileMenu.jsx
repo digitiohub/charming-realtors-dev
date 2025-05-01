@@ -3,7 +3,9 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
-const MobileMenu = ({ isOpen, setIsOpen }) => {
+const MobileMenu = ({ isOpen, setIsOpen, theme = "blue" }) => {
+  const isTerracotta = theme === "terracotta";
+
   return (
     <motion.div
       initial={{ translateX: "100%" }}
@@ -17,8 +19,22 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
       }}
       className="fixed top-0 right-0 h-full w-[70%] bg-white shadow-lg z-50 flex flex-col"
     >
-      <div className="flex justify-end p-4">
-        <button onClick={() => setIsOpen(false)} aria-label="Close menu">
+      <div className="flex justify-between items-center p-4 border-b">
+        <div className="flex items-center gap-2">
+          <img src="/logos/logo_icon.png" alt="Logo" className="h-8 w-auto" />
+          <span
+            className={`font-bold ${
+              isTerracotta ? "text-[#b54426]" : "text-blue-600"
+            }`}
+          >
+            
+          </span>
+        </div>
+        <button
+          onClick={() => setIsOpen(false)}
+          aria-label="Close menu"
+          className={isTerracotta ? "text-[#b54426]" : "text-blue-600"}
+        >
           <X size={24} />
         </button>
       </div>
@@ -29,13 +45,15 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-blue-600"
+              ? `font-semibold ${
+                  isTerracotta ? "text-[#b54426]" : "text-blue-600"
+                }`
               : "text-gray-800 hover:text-blue-500"
           }
         >
           Home 1
         </NavLink>
-        
+
         <NavLink
           to="/home2"
           onClick={() => setIsOpen(false)}
@@ -53,7 +71,9 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-blue-600"
+              ? `font-semibold ${
+                  isTerracotta ? "text-[#b54426]" : "text-blue-600"
+                }`
               : "text-gray-800 hover:text-blue-500"
           }
         >
@@ -65,7 +85,9 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-blue-600"
+              ? `font-semibold ${
+                  isTerracotta ? "text-[#b54426]" : "text-blue-600"
+                }`
               : "text-gray-800 hover:text-blue-500"
           }
         >
@@ -77,7 +99,9 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             isActive
-              ? "font-semibold text-blue-600"
+              ? `font-semibold ${
+                  isTerracotta ? "text-[#b54426]" : "text-blue-600"
+                }`
               : "text-gray-800 hover:text-blue-500"
           }
         >

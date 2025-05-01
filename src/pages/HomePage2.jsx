@@ -10,7 +10,7 @@ const HomePage2 = () => {
       <div className="bg-gradient-to-b from-[#8f3517] to-[#5c2211]">
         <HomeHero
           theme="terracotta"
-          particleColors={["#b54426", "#d25a3a", "#e87654"]}
+          particleColors={["#FFFFFF", "#FFF5EE", "#FFFAF0"]}
         />
       </div>
       <HomeBadges theme="terracotta" />
