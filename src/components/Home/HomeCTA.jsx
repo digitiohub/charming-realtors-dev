@@ -11,13 +11,12 @@ const HomeCTA = ({ theme = "blue" }) => {
   };
 
   // Theme-specific styling
-  const backgroundGradient = 
-    theme === "terracotta" 
-      ? "bg-gradient-to-br from-[#8f3517] to-[#5c2211]" 
+  const backgroundGradient =
+    theme === "terracotta"
+      ? "bg-gradient-to-br from-[#8f3517] to-[#5c2211]"
       : "bg-gradient-to-br from-blue-900 to-blue-800";
 
-  const textColor = 
-    theme === "terracotta" ? "text-[#ffe4dc]" : "text-blue-100";
+  const textColor = theme === "terracotta" ? "text-[#ffe4dc]" : "text-blue-100";
 
   return (
     <section className={`py-20 ${backgroundGradient} text-white`}>
@@ -54,15 +53,14 @@ const HomeCTA = ({ theme = "blue" }) => {
             <p className={`${textColor} text-center mb-6`}>
               Explore our curated selection of premium properties.
             </p>
+
+            {/* Updated button styling to match HomeHero */}
             <Button
               variant={theme === "terracotta" ? "custom" : "primary"}
               color={theme === "terracotta" ? "terracotta" : ""}
               action="navigate"
               to="/projects"
               size="medium"
-              className={theme === "terracotta" 
-                ? "bg-white text-[#b54426] hover:bg-[#fff5f2]" 
-                : "bg-white text-blue-800 hover:bg-blue-50"}
             >
               View Our Projects
             </Button>
@@ -117,10 +115,7 @@ const HomeCTA = ({ theme = "blue" }) => {
               action="link"
               to="/contact#calendar"
               size="medium"
-              color={theme === "terracotta" ? "terracotta" : ""}
-              className={theme === "terracotta" 
-                ? "border-white text-white hover:bg-white/10"
-                : "border-white text-white hover:bg-white/10"}
+              className="border-white text-white hover:bg-white/10"
               icon={<Calendar size={18} />}
             >
               Schedule a Call
