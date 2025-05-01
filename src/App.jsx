@@ -1,9 +1,19 @@
-import React from 'react'
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import HomePage from "./pages/HomePage";
 
 const App = () => {
   return (
-    <div className='text-8xl'>App</div>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<HomePage />} />
+          {/* Add more routes here as needed */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
