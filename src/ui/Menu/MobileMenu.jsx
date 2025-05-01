@@ -33,7 +33,19 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
               : "text-gray-800 hover:text-blue-500"
           }
         >
-          Home
+          Home 1
+        </NavLink>
+        
+        <NavLink
+          to="/home2"
+          onClick={() => setIsOpen(false)}
+          className={({ isActive }) =>
+            isActive
+              ? "font-semibold text-[#b54426]"
+              : "text-gray-800 hover:text-[#d25a3a]"
+          }
+        >
+          Home 2
         </NavLink>
 
         <NavLink

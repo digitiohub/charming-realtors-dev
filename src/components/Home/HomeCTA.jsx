@@ -3,15 +3,24 @@ import { motion } from "framer-motion";
 import { Folder, MessageCircle, Calendar } from "lucide-react";
 import Button from "../../ui/Components/Button";
 
-const HomeCTA = () => {
+const HomeCTA = ({ theme = "blue" }) => {
   const springConfig = {
     type: "spring",
     stiffness: 100,
     damping: 15,
   };
 
+  // Theme-specific styling
+  const backgroundGradient = 
+    theme === "terracotta" 
+      ? "bg-gradient-to-br from-[#8f3517] to-[#5c2211]" 
+      : "bg-gradient-to-br from-blue-900 to-blue-800";
+
+  const textColor = 
+    theme === "terracotta" ? "text-[#ffe4dc]" : "text-blue-100";
+
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-900 to-blue-800 text-white">
+    <section className={`py-20 ${backgroundGradient} text-white`}>
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-12"
@@ -23,7 +32,7 @@ const HomeCTA = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to Find Your Perfect Property?
           </h2>
-          <p className="text-lg text-blue-100 max-w-2xl mx-auto">
+          <p className={`text-lg ${textColor} max-w-2xl mx-auto`}>
             Our team of experts is ready to guide you through every step of your
             real estate journey.
           </p>
@@ -39,18 +48,21 @@ const HomeCTA = () => {
             className="flex flex-col items-center"
           >
             <div className="bg-white/10 rounded-full p-5 mb-4 backdrop-blur-sm">
-              <Folder size={32} className="text-blue-100" />
+              <Folder size={32} className={textColor} />
             </div>
             <h3 className="text-xl font-semibold mb-2">Browse Properties</h3>
-            <p className="text-blue-100 text-center mb-6">
+            <p className={`${textColor} text-center mb-6`}>
               Explore our curated selection of premium properties.
             </p>
             <Button
-              variant="primary"
+              variant={theme === "terracotta" ? "custom" : "primary"}
+              color={theme === "terracotta" ? "terracotta" : ""}
               action="navigate"
               to="/projects"
               size="medium"
-              className="bg-white text-blue-800 hover:bg-blue-50"
+              className={theme === "terracotta" 
+                ? "bg-white text-[#b54426] hover:bg-[#fff5f2]" 
+                : "bg-white text-blue-800 hover:bg-blue-50"}
             >
               View Our Projects
             </Button>
@@ -65,15 +77,15 @@ const HomeCTA = () => {
             className="flex flex-col items-center"
           >
             <div className="bg-white/10 rounded-full p-5 mb-4 backdrop-blur-sm">
-              <MessageCircle size={32} className="text-blue-100" />
+              <MessageCircle size={32} className={textColor} />
             </div>
             <h3 className="text-xl font-semibold mb-2">Instant Support</h3>
-            <p className="text-blue-100 text-center mb-6">
+            <p className={`${textColor} text-center mb-6`}>
               Get answers to your questions right away via WhatsApp.
             </p>
             <Button
               variant="custom"
-              color="green"
+              color={theme === "terracotta" ? "accent" : "green"}
               action="link"
               to="https://wa.me/1234567890" // Replace with your WhatsApp number
               size="medium"
@@ -92,12 +104,12 @@ const HomeCTA = () => {
             className="flex flex-col items-center"
           >
             <div className="bg-white/10 rounded-full p-5 mb-4 backdrop-blur-sm">
-              <Calendar size={32} className="text-blue-100" />
+              <Calendar size={32} className={textColor} />
             </div>
             <h3 className="text-xl font-semibold mb-2">
               Personal Consultation
             </h3>
-            <p className="text-blue-100 text-center mb-6">
+            <p className={`${textColor} text-center mb-6`}>
               Book a call with our expert advisory team.
             </p>
             <Button
@@ -105,7 +117,10 @@ const HomeCTA = () => {
               action="link"
               to="/contact#calendar"
               size="medium"
-              className="border-white text-white hover:bg-white/10"
+              color={theme === "terracotta" ? "terracotta" : ""}
+              className={theme === "terracotta" 
+                ? "border-white text-white hover:bg-white/10"
+                : "border-white text-white hover:bg-white/10"}
               icon={<Calendar size={18} />}
             >
               Schedule a Call

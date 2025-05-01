@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Award, Briefcase, Home, Users } from "lucide-react";
 
-const HomeBadges = () => {
+const HomeBadges = ({ theme = "blue" }) => {
   // Spring animation configuration
   const springConfig = {
     type: "spring",
@@ -10,6 +10,28 @@ const HomeBadges = () => {
     damping: 15,
     mass: 1,
   };
+
+  // Theme-specific colors
+  const colors = {
+    blue: {
+      curtain: "bg-blue-800",
+      icon: {
+        default: "bg-blue-50 text-blue-600",
+        hover: "bg-blue-700 text-white"
+      },
+      textHover: "text-blue-100"
+    },
+    terracotta: {
+      curtain: "bg-[#8f3517]",
+      icon: {
+        default: "bg-[#fff5f2] text-[#b54426]",
+        hover: "bg-[#b54426] text-white"
+      },
+      textHover: "text-[#ffe4dc]"
+    }
+  };
+
+  const themeColors = colors[theme] || colors.blue;
 
   const badges = [
     {
@@ -79,7 +101,7 @@ const HomeBadges = () => {
               >
                 {/* Curtain overlay */}
                 <motion.div
-                  className="absolute inset-0 bg-blue-800"
+                  className={`absolute inset-0 ${themeColors.curtain}`}
                   initial={{ scaleY: 0 }}
                   animate={{
                     scaleY: isHovered ? 1 : 0,
@@ -97,8 +119,8 @@ const HomeBadges = () => {
                   <motion.div
                     className={`p-3 rounded-full mb-4 ${
                       isHovered
-                        ? "bg-blue-700 text-white"
-                        : "bg-blue-50 text-blue-600"
+                        ? themeColors.icon.hover
+                        : themeColors.icon.default
                     }`}
                     animate={{
                       scale: isHovered ? 1.1 : 1,
@@ -121,7 +143,7 @@ const HomeBadges = () => {
                   </motion.h3>
 
                   <motion.p
-                    className={isHovered ? "text-blue-100" : "text-gray-600"}
+                    className={isHovered ? themeColors.textHover : "text-gray-600"}
                   >
                     {badge.description}
                   </motion.p>

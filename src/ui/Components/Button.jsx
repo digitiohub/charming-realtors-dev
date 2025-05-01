@@ -10,7 +10,7 @@ const Button = ({
 
   // Style props
   variant = "primary", // 'primary', 'outline', or 'custom'
-  color = "", // For 'custom' variant: 'blue', 'green', 'red', etc.
+  color = "", // For 'custom' variant: 'blue', 'green', 'red', 'terracotta', etc.
   size = "medium", // 'small', 'medium', 'large'
   fullWidth = false,
   className = "",
@@ -64,6 +64,9 @@ const Button = ({
       case "primary":
         return "bg-blue-600 hover:bg-blue-700 text-white";
       case "outline":
+        if (color === "terracotta") {
+          return "bg-transparent border-2 border-[#b54426] text-[#b54426] hover:bg-[#fff5f2]";
+        }
         return "bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-50";
       case "custom":
         if (color === "green") {
@@ -71,6 +74,12 @@ const Button = ({
         }
         if (color === "red") {
           return "bg-red-600 hover:bg-red-700 text-white";
+        }
+        if (color === "terracotta") {
+          return "bg-[#b54426] hover:bg-[#d25a3a] text-white";
+        }
+        if (color === "accent") {
+          return "bg-[#2d7c5e] hover:bg-[#3ca379] text-white";
         }
         // Default to the provided color
         return `bg-${color}-600 hover:bg-${color}-700 text-white`;

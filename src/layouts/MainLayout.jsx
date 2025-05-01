@@ -5,11 +5,14 @@ import Footer from "../ui/Menu/Footer";
 
 const MainLayout = () => {
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
+
+  // Check if we're on either homepage
+  const isHomePage =
+    location.pathname === "/" || location.pathname === "/home2";
 
   return (
     <>
-      {/* Only show the navbar if NOT on the homepage */}
+      {/* Only show the navbar if NOT on either homepage */}
       {!isHomePage && <Navbar />}
       <Outlet />
       <Footer />

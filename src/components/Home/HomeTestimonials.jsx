@@ -1,11 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
-const HomeTestimonials = () => {
+const HomeTestimonials = ({ theme = "blue" }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [cardHeight, setCardHeight] = useState("auto");
+  const intervalRef = useRef(null);
+
+  // Theme colors
+  const themeColors = {
+    blue: {
+      accent: "text-blue-600",
+      highlight: "bg-blue-500",
+      quoteBg: "text-blue-100",
+      active: "bg-blue-600",
+      border: "border-blue-100",
+    },
+    terracotta: {
+      accent: "text-[#b54426]",
+      highlight: "bg-[#b54426]",
+      quoteBg: "text-[#f8d3c9]",
+      active: "bg-[#b54426]",
+      border: "border-[#f8d3c9]",
+    },
+  };
+
+  const colors = themeColors[theme] || themeColors.blue;
 
   // Spring configuration
   const springConfig = {
@@ -50,10 +71,25 @@ const HomeTestimonials = () => {
     setCardHeight("min-h-[220px] md:min-h-[180px]");
   }, []);
 
+  // Start auto-slide timer
+  const startAutoSlideTimer = () => {
+    // Clear any existing interval first
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    // Set new interval
+    intervalRef.current = setInterval(() => {
+      setDirection(1);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    }, 6000);
+  };
+
   // Handle navigation
   const nextTestimonial = () => {
     setDirection(1);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    startAutoSlideTimer(); // Reset the timer after manual navigation
   };
 
   const prevTestimonial = () => {
@@ -61,16 +97,27 @@ const HomeTestimonials = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
     );
+    startAutoSlideTimer(); // Reset the timer after manual navigation
   };
 
-  // Auto-slide effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextTestimonial();
-    }, 6000);
+  // Function to handle dot navigation
+  const goToTestimonial = (index) => {
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
+    startAutoSlideTimer(); // Reset the timer after manual navigation
+  };
 
-    return () => clearInterval(interval);
-  }, []);
+  // Initialize auto-slide and clean up on unmount
+  useEffect(() => {
+    startAutoSlideTimer();
+
+    // Cleanup function
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []); // Empty dependency array means this runs once on mount
 
   // Variants for animations
   const slideVariants = {
@@ -111,7 +158,7 @@ const HomeTestimonials = () => {
         <div className="relative max-w-4xl mx-auto">
           {/* Quote Icon */}
           <motion.div
-            className="absolute -top-10 -left-4 text-blue-100 z-0 hidden md:block"
+            className={`absolute -top-10 -left-4 ${colors.quoteBg} z-0 hidden md:block`}
             initial={{ opacity: 0, scale: 0.5 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -149,7 +196,9 @@ const HomeTestimonials = () => {
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <div className="absolute -bottom-2 -right-2 bg-blue-500 rounded-full p-1.5">
+                        <div
+                          className={`absolute -bottom-2 -right-2 ${colors.highlight} rounded-full p-1.5`}
+                        >
                           <Quote size={16} className="text-white" />
                         </div>
                       </div>
@@ -158,7 +207,7 @@ const HomeTestimonials = () => {
                         <h4 className="font-bold text-xl text-gray-800 mb-1">
                           {testimonials[currentIndex].name}
                         </h4>
-                        <p className="text-blue-600 font-medium">
+                        <p className={`${colors.accent} font-medium`}>
                           {testimonials[currentIndex].position}
                         </p>
                         <p className="text-gray-500 text-sm mb-3">
@@ -198,7 +247,7 @@ const HomeTestimonials = () => {
               className="p-2 rounded-full bg-white shadow-md hover:bg-gray-100 transition-colors"
               aria-label="Previous testimonial"
             >
-              <ChevronLeft size={24} className="text-blue-600" />
+              <ChevronLeft size={24} className={colors.accent} />
             </button>
 
             {/* Pagination Dots */}
@@ -206,13 +255,10 @@ const HomeTestimonials = () => {
               {testimonials.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    setDirection(index > currentIndex ? 1 : -1);
-                    setCurrentIndex(index);
-                  }}
+                  onClick={() => goToTestimonial(index)}
                   className={`h-2.5 rounded-full transition-all ${
                     index === currentIndex
-                      ? "bg-blue-600 w-8"
+                      ? `${colors.active} w-8`
                       : "bg-gray-300 hover:bg-gray-400 w-2.5"
                   }`}
                   aria-label={`Go to testimonial ${index + 1}`}
@@ -225,7 +271,7 @@ const HomeTestimonials = () => {
               className="p-2 rounded-full bg-white shadow-md hover:bg-gray-100 transition-colors"
               aria-label="Next testimonial"
             >
-              <ChevronRight size={24} className="text-blue-600" />
+              <ChevronRight size={24} className={colors.accent} />
             </button>
           </div>
         </div>

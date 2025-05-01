@@ -9,12 +9,14 @@ const HomePage = () => {
   return (
     <div>
       <div className="bg-gradient-to-b from-gray-900 to-gray-800">
-        <HomeHero />
+        <HomeHero 
+          theme="blue" 
+          particleColors={["#4F46E5", "#3B82F6", "#60A5FA"]} 
+        />
       </div>
-      <HomeBadges />
-      <HomeCTA />
-      <HomeTestimonials />
-      {/* Other sections go here */}
+      <HomeBadges theme="blue" />
+      <HomeCTA theme="blue" />
+      <HomeTestimonials theme="blue" />
     </div>
   );
 };

@@ -5,8 +5,24 @@ import { MessageCircle, Menu, X } from "lucide-react";
 import Button from "../../ui/Components/Button";
 import { NavLink } from "react-router-dom";
 
-const HomeHero = () => {
+const HomeHero = ({ theme = "blue", particleColors }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Theme-specific styles
+  const themeStyles = {
+    blue: {
+      buttonPrimary: "primary",
+      buttonSecondary: "custom",
+      buttonColor: "green",
+    },
+    terracotta: {
+      buttonPrimary: "custom",
+      buttonSecondary: "custom",
+      buttonColor: "terracotta",
+    },
+  };
+
+  const styles = themeStyles[theme] || themeStyles.blue;
 
   // Spring configuration for smoother animations
   const springConfig = {
@@ -20,7 +36,7 @@ const HomeHero = () => {
       {/* Particles Background */}
       <div className="absolute inset-0 z-0">
         <Particles
-          particleColors={["#4F46E5", "#3B82F6", "#60A5FA"]}
+          particleColors={particleColors || ["#4F46E5", "#3B82F6", "#60A5FA"]}
           particleCount={1000}
           particleSpread={12}
           speed={0.1}
@@ -49,10 +65,48 @@ const HomeHero = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            {["/", "/about", "/projects", "/contact"].map((path, index) => (
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-semibold text-white"
+                  : "text-gray-200 hover:text-white"
+              }
+            >
+              <motion.div
+                initial={{ translateY: 0 }}
+                whileHover={{
+                  translateY: -2,
+                  transition: { type: "spring", stiffness: 400, damping: 10 },
+                }}
+              >
+                Home 1
+              </motion.div>
+            </NavLink>
+
+            <NavLink
+              to="/home2"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-semibold text-white"
+                  : "text-gray-200 hover:text-white"
+              }
+            >
+              <motion.div
+                initial={{ translateY: 0 }}
+                whileHover={{
+                  translateY: -2,
+                  transition: { type: "spring", stiffness: 400, damping: 10 },
+                }}
+              >
+                Home 2
+              </motion.div>
+            </NavLink>
+
+            {["/about", "/projects", "/contact"].map((path, index) => (
               <NavLink
                 key={path}
-                to={path === "/" ? path : path.substring(1)}
+                to={path.substring(1)}
                 className={({ isActive }) =>
                   isActive
                     ? "font-semibold text-white"
@@ -66,10 +120,8 @@ const HomeHero = () => {
                     transition: { type: "spring", stiffness: 400, damping: 10 },
                   }}
                 >
-                  {path === "/"
-                    ? "Home"
-                    : path.substring(1).charAt(0).toUpperCase() +
-                      path.substring(2)}
+                  {path.substring(1).charAt(0).toUpperCase() +
+                    path.substring(2)}
                 </motion.div>
               </NavLink>
             ))}
@@ -112,11 +164,27 @@ const HomeHero = () => {
             onClick={() => setIsMenuOpen(false)}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-blue-600"
+                ? `font-semibold ${
+                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
+                  }`
                 : "text-gray-800 hover:text-blue-500"
             }
           >
-            Home
+            Home 1
+          </NavLink>
+
+          <NavLink
+            to="/home2"
+            onClick={() => setIsMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? `font-semibold ${
+                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
+                  }`
+                : "text-gray-800 hover:text-blue-500"
+            }
+          >
+            Home 2
           </NavLink>
 
           <NavLink
@@ -124,7 +192,9 @@ const HomeHero = () => {
             onClick={() => setIsMenuOpen(false)}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-blue-600"
+                ? `font-semibold ${
+                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
+                  }`
                 : "text-gray-800 hover:text-blue-500"
             }
           >
@@ -136,7 +206,9 @@ const HomeHero = () => {
             onClick={() => setIsMenuOpen(false)}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-blue-600"
+                ? `font-semibold ${
+                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
+                  }`
                 : "text-gray-800 hover:text-blue-500"
             }
           >
@@ -148,7 +220,9 @@ const HomeHero = () => {
             onClick={() => setIsMenuOpen(false)}
             className={({ isActive }) =>
               isActive
-                ? "font-semibold text-blue-600"
+                ? `font-semibold ${
+                    theme === "terracotta" ? "text-[#b54426]" : "text-blue-600"
+                  }`
                 : "text-gray-800 hover:text-blue-500"
             }
           >
@@ -214,17 +288,18 @@ const HomeHero = () => {
           className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6"
         >
           <Button
-            variant="primary"
+            variant={styles.buttonPrimary}
             action="navigate"
             to="/projects"
             size="large"
+            color={theme === "terracotta" ? "terracotta" : ""}
           >
             Explore Properties
           </Button>
 
           <Button
-            variant="custom"
-            color="green"
+            variant={styles.buttonSecondary}
+            color={theme === "terracotta" ? "accent" : "green"}
             action="link"
             to="https://wa.me/1234567890" // Replace with your WhatsApp number
             size="large"

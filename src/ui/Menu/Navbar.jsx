@@ -25,10 +25,48 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            {["/", "/about", "/projects", "/contact"].map((path, index) => (
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-semibold text-blue-600"
+                  : "text-gray-800 hover:text-blue-500"
+              }
+            >
+              <motion.div
+                initial={{ translateY: 0 }}
+                whileHover={{
+                  translateY: -2,
+                  transition: { type: "spring", stiffness: 400, damping: 10 },
+                }}
+              >
+                Home 1
+              </motion.div>
+            </NavLink>
+
+            <NavLink
+              to="/home2"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-semibold text-[#b54426]"
+                  : "text-gray-800 hover:text-[#d25a3a]"
+              }
+            >
+              <motion.div
+                initial={{ translateY: 0 }}
+                whileHover={{
+                  translateY: -2,
+                  transition: { type: "spring", stiffness: 400, damping: 10 },
+                }}
+              >
+                Home 2
+              </motion.div>
+            </NavLink>
+
+            {["/about", "/projects", "/contact"].map((path) => (
               <NavLink
                 key={path}
-                to={path === "/" ? path : path.substring(1)}
+                to={path.substring(1)}
                 className={({ isActive }) =>
                   isActive
                     ? "font-semibold text-blue-600"
@@ -42,10 +80,8 @@ const Navbar = () => {
                     transition: { type: "spring", stiffness: 400, damping: 10 },
                   }}
                 >
-                  {path === "/"
-                    ? "Home"
-                    : path.substring(1).charAt(0).toUpperCase() +
-                      path.substring(2)}
+                  {path.substring(1).charAt(0).toUpperCase() +
+                    path.substring(2)}
                 </motion.div>
               </NavLink>
             ))}
