@@ -1,10 +1,13 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Particles from "../../ui/Particles/Particles";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Menu, X } from "lucide-react";
 import Button from "../../ui/Components/Button";
+import { NavLink } from "react-router-dom";
 
 const HomeHero = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   // Spring configuration for smoother animations
   const springConfig = {
     type: "spring",
@@ -13,7 +16,7 @@ const HomeHero = () => {
   };
 
   return (
-    <div className="relative w-full h-[90vh] overflow-hidden">
+    <div className="relative w-full h-[100svh] sm:h-[100vh] overflow-hidden">
       {/* Particles Background */}
       <div className="absolute inset-0 z-0">
         <Particles
@@ -29,8 +32,145 @@ const HomeHero = () => {
         />
       </div>
 
+      {/* Navbar - Placed directly in the hero */}
+      <div className="relative z-20">
+        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
+          {/* Logo */}
+          <NavLink to="/" className="font-bold text-xl text-white">
+            <motion.div
+              whileHover={{
+                translateY: -2,
+                transition: { type: "spring", stiffness: 400, damping: 10 },
+              }}
+            >
+              YourLogo
+            </motion.div>
+          </NavLink>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-6">
+            {["/", "/about", "/projects", "/contact"].map((path, index) => (
+              <NavLink
+                key={path}
+                to={path === "/" ? path : path.substring(1)}
+                className={({ isActive }) =>
+                  isActive
+                    ? "font-semibold text-white"
+                    : "text-gray-200 hover:text-white"
+                }
+              >
+                <motion.div
+                  initial={{ translateY: 0 }}
+                  whileHover={{
+                    translateY: -2,
+                    transition: { type: "spring", stiffness: 400, damping: 10 },
+                  }}
+                >
+                  {path === "/"
+                    ? "Home"
+                    : path.substring(1).charAt(0).toUpperCase() +
+                      path.substring(2)}
+                </motion.div>
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsMenuOpen(true)}
+            className="md:hidden text-white"
+            aria-label="Open menu"
+          >
+            <Menu size={24} />
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <motion.div
+        initial={{ translateX: "100%" }}
+        animate={{
+          translateX: isMenuOpen ? 0 : "100%",
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
+        }}
+        className="fixed top-0 right-0 h-full w-[70%] bg-white shadow-lg z-50 flex flex-col"
+      >
+        <div className="flex justify-end p-4">
+          <button onClick={() => setIsMenuOpen(false)} aria-label="Close menu">
+            <X size={24} />
+          </button>
+        </div>
+
+        <nav className="flex flex-col gap-6 p-6">
+          <NavLink
+            to="/"
+            onClick={() => setIsMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "font-semibold text-blue-600"
+                : "text-gray-800 hover:text-blue-500"
+            }
+          >
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            onClick={() => setIsMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "font-semibold text-blue-600"
+                : "text-gray-800 hover:text-blue-500"
+            }
+          >
+            About
+          </NavLink>
+
+          <NavLink
+            to="/projects"
+            onClick={() => setIsMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "font-semibold text-blue-600"
+                : "text-gray-800 hover:text-blue-500"
+            }
+          >
+            Projects
+          </NavLink>
+
+          <NavLink
+            to="/contact"
+            onClick={() => setIsMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "font-semibold text-blue-600"
+                : "text-gray-800 hover:text-blue-500"
+            }
+          >
+            Contact
+          </NavLink>
+        </nav>
+      </motion.div>
+
+      {/* Overlay when mobile menu is open */}
+      {isMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
+      <div className="relative z-10 flex flex-col items-center justify-center h-[calc(100%-70px)] px-4 text-center">
         <motion.div
           initial={{ opacity: 0, translateY: 30 }}
           animate={{ opacity: 1, translateY: 0 }}

@@ -1,13 +1,17 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../ui/Menu/Navbar";
 import Footer from "../ui/Menu/Footer";
 
 const MainLayout = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
     <>
-      <Navbar />
-      <Outlet /> 
+      {/* Only show the navbar if NOT on the homepage */}
+      {!isHomePage && <Navbar />}
+      <Outlet />
       <Footer />
     </>
   );
